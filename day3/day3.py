@@ -6,6 +6,21 @@ with open(inFile,'r') as i:
     
 # steps:
 # split string using spaces and \n
-lines_proc = [x.split() for x in lines]
+lines_proc = [x.split()[0] for x in lines]
 
-print(lines_proc)
+priority = lambda x: ord(x)-96 if x.islower() else ord(x)-38
+
+def countOcurrences(line):
+    half = len(line)//2
+    occurences = {}
+    for index,char in enumerate(line):
+        if(index<=half):
+            occurences[char] = line.count(char,half)
+        else:
+            occurences[char] = line.count(char,0,half) 
+        if(occurences[char]): 
+            result = char
+    return priority(result)
+
+priorities = [countOcurrences(x) for x in lines_proc]
+print(sum(priorities))
